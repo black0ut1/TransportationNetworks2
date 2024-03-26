@@ -1,4 +1,4 @@
-import os
+import os, sys
 
 
 def sanitize(string: str) -> str:
@@ -55,6 +55,8 @@ def convert_net(file: list[str]) -> list[str]:
         speed = split[7]
         toll = split[8]
         link_type = split[9]
+        if link_type.endswith(';'):
+            link_type = link_type[0: len(link_type) - 1]
         new_lines.append(f"{init_node} {term_node} {capacity} {free_flow_time} "
                          f"{length} {speed} {toll} {b} {power} {link_type}\n")
 
@@ -168,11 +170,4 @@ def convert(path: str):
 
 
 if __name__ == '__main__':
-    dirs = [x[0] for x in os.walk("./")]
-
-    for directory in dirs:
-        files = os.listdir(directory)
-        for f in files:
-            if f.endswith("tntp"):
-                print(f"Converting file {directory}/{f}")
-                convert(f"{directory}/{f}")
+    convert(sys.argv[1])
