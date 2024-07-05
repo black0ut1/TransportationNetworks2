@@ -33,7 +33,8 @@ Toll: 0
 Distance: 0
 
 ## Solutions
-`Anaheim_flow.tntp` with Average Excess Cost of less than 1E-15.
+`Anaheim.flow.tntp` - 100 iterations of B algorithm.
+Objective function value: 1205590.689815977
 
 ## Known Issues
 FIXME translate to Github Issues
