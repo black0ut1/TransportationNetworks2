@@ -71,4 +71,9 @@ The header ends with `END` line, after which start the sparse matrix. Each line
 start with matrix row number `<i>` followed by pairs of column numbers `<j>` and
 according flows `<flow>`. Pairs where flow is zero are not present.
 
-
+## Known issues
+ - Munich network is a mess, not yet converted
+ - Barcelona seems to have messed up capacities (always 1)
+and edge-dependent BPR function coefficients
+ - missing mirror edges in some networks (mirror edges
+are required by B algorithm)
