@@ -1,6 +1,6 @@
 import sys
 from typing import List
-from queue import Queue
+from collections import deque
 
 
 def read_net_and_check_duplicate_edges(lines: List[str]) -> (dict, int):
@@ -41,22 +41,25 @@ def read_net_and_check_duplicate_edges(lines: List[str]) -> (dict, int):
 
 
 def is_graph_complete(edges: dict, nodes: int):
-    q = Queue()
+    adj_list = [[] for _ in range(nodes)]
+    for edge in edges.keys():
+        adj_list[edge[0]].append(edge)
+
+    q = deque()
     visited = [False] * nodes
 
     print("Checking graph completeness...")
 
-    q.put(0)
-    while not q.empty():
-        node = q.get()
-        if visited[node]:
+    q.append(0)
+    while len(q) != 0:
+        u = q.popleft()
+        if visited[u]:
             continue
 
-        visited[node] = True
+        visited[u] = True
 
-        neighbors = [v for u, v in edges.keys() if u == node]
-        for neighbor in neighbors:
-            q.put(neighbor)
+        for edge in adj_list[u]:
+            q.append(edge[1])
 
     print(f"Graph is {'not ' if False in visited else ''}complete")
 
@@ -72,7 +75,6 @@ def check_mirror_edges(edges: dict):
 
     if ok:
         print("OK")
-
 
 
 def properties(net_file: str):

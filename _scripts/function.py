@@ -1,13 +1,14 @@
-import sys, os
+import sys
 
 
-def BPRprimitive(capacity: float, freeFlow: float, flow: float) -> float:
+def BPRprimitive(capacity: float, freeFlow: float, b: float, power: float, flow: float) -> float:
     """
     Primitive function of the BPR function with respect to flow
     BPR: c(x) = f * ( 1 + 0.15 * (x/K)^4 ), f...free flow, K...capacity, x...current flow
     """
-    a = 1 + 0.03 * (flow / capacity) ** 4
-    return freeFlow * flow * a
+    a = b / (power + 1)
+    c = (flow / capacity) ** power
+    return freeFlow * flow * (1 + a * c)
 
 
 def objective_function(net_file: str, flow_file: str):
@@ -26,11 +27,16 @@ def objective_function(net_file: str, flow_file: str):
 
         for line in lines[i:]:
             split = line.split()
+
             start = int(split[0])
             end = int(split[1])
+
             capacity = float(split[2])
             freeflow = float(split[3])
-            dic[(start, end)] = [capacity, freeflow]
+            b = float(split[7])
+            power = float(split[8])
+
+            dic[(start, end)] = [capacity, freeflow, b, power]
 
     with open(flow_file, 'r') as f:
         for line in f.readlines():
